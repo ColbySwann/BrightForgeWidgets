@@ -6,11 +6,11 @@ import Logo from "../assets/images/Icon-Only-White.png";
 const NavBar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
-    const { user, logout } = useAuth();
+    const { user, isAdmin, logout } = useAuth();
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        logout();
+        if (logout) logout();
         navigate("/");
     };
 
@@ -27,7 +27,7 @@ const NavBar = () => {
         { name: "Home", path: "/" },
         { name: "Widgets", path: "/widgets" },
         { name: "About", path: "/about" },
-        ...(user ? [{ name: "Admin", path: "/admin" }] : []),
+        ...(isAdmin ? [{ name: "Admin", path: "/admin" }] : []),
     ];
 
     return (
@@ -103,13 +103,22 @@ const NavBar = () => {
                                 Logout
                             </button>
                         ) : (
+                            <div className={"grid grid-cols-2 gap-2"}>
                             <Link
                                 to="/login"
-                                className="bg-gray-900 text-orange-400 font-semibold px-4 py-2 rounded-lg hover:bg-gray-800"
+                                className="bg-gray-900 text-orange-400 font-semibold px-6 py-2 rounded-lg hover:bg-gray-800 w-full"
                             >
                                 Login
                             </Link>
+                            <Link
+                                to="/register"
+                                className="bg-gray-900 text-orange-400 font-semibold px-4 py-2 rounded-lg hover:bg-gray-800"
+                            >
+                                Sign Up
+                            </Link>
+                            </div>
                         )}
+
                     </div>
 
                     {/* Mobile Hamburger */}

@@ -1,1 +1,35 @@
-spring.application.name=WidgetCapstone
+spring:
+  application:
+    name: widget
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+
+
+  datasource:
+    url: jdbc:postgresql://localhost:5434/widget
+    driver-class-name: org.postgresql.Driver
+    username: widget_dev
+    password: widget_dev12
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+server:
+  port: 8080
+
+file:
+  upload-dir: uploads
+
+app:
+  jwtSecret: 94b1a85188527068c8fcff0a7eff34345d9f8baec58ef3e54ef1d391526f5cc674f0c9da6148bf92a5261aea
+  jwtExpirationMs: 86400000

@@ -12,6 +12,8 @@ import AboutPage from "./Pages/AboutPage.jsx";
 import LoginPage from "./Pages/LoginPage.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx"
 import ProtectedRoute from "./router/ProtectedRoute.jsx";
+import RegistrationPage from "./Pages/RegistrationPage.jsx";
+import {EditWidgetPage} from "./Pages/EditWidgetPage.jsx";
 
 const router = createBrowserRouter([
     {
@@ -22,7 +24,9 @@ const router = createBrowserRouter([
             {path: "splash", element: <SplashPage />},
             {path: "widgets", element: <WidgetListPage />},
             {path: "login", element: <LoginPage />},
+            {path: "edit", element: <EditWidgetPage />},
             {path: "about", element: <AboutPage />},
+            {path: "register", element: <RegistrationPage />},
             {index: true, element: <SplashPage />},
             {
                 path: "admin",

@@ -3,7 +3,7 @@ import { yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import api from "../api/axiosInstance.js";
 import { useAuth } from "../context/AuthContext.jsx";
-import { useNavigate } from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 
 const schema = yup.object().shape({
     username: yup.string().required("Username is required"),
@@ -21,12 +21,24 @@ export default function LoginPage() {
     } = useForm({resolver: yupResolver(schema)});
 
     const onSubmit = async (data) => {
+        console.log(data)
         try {
-            const res = await api.post("/auth/login", data);
-            login(res.data.token);
-            navigate("/admin");
+            const res = await api.post("http://localhost:8080/api/auth/login", data);
+
+            console.log("Login response: ", res.data);
+
+            api.defaults.headers.common["Authorization"] = `Bearer ${res.data.token}`;
+
+            login(res.data.token, res.data.role, res.data.username);
+
+            if (res.data.role === "ADMIN") {
+                navigate("/admin");
+            }else {
+                navigate("/");
+            }
         } catch (err) {
-            alert("Invalid credentials")
+            console.log(err);
+            alert("Invalid credentials");
         }
     };
 
@@ -50,11 +62,12 @@ export default function LoginPage() {
 
                 <button
                     type={"submit"}
-                    disabled={"isSubmitting"}
+                    // disabled={"isSubmitting"}
                     className={"w-full mt-6 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 rounded-lg"}>
                     {isSubmitting ? "Logging in..." : "Login"}
                 </button>
             </form>
+            {/*<NavLink to={"/register"} className={"align-middle relative"}>Sign Up</NavLink>*/}
         </div>
     );
 }

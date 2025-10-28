@@ -6,38 +6,38 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ColorsService {
+public class ColorService {
     
-    public final ColorsRepository colorsRepository;
+    public final ColorRepository colorRepository;
 
-    public ColorsService(ColorsRepository colorsRepository) {
-        this.colorsRepository = colorsRepository;
+    public ColorService(ColorRepository colorRepository) {
+        this.colorRepository = colorRepository;
     }
 
-    public Color createColors(Color color) {
-        return colorsRepository.save(color);
+    public Color createColor(Color color) {
+        return colorRepository.save(color);
     }
 
-    public List<Color> getAllColors() {
-        return colorsRepository.findAll();
+    public List<Color> getAllColor() {
+        return colorRepository.findAll();
     }
 
-    public Optional<Color> getColorsById(Long id) {
-        return colorsRepository.findById(id);
+    public Optional<Color> getColorById(Long id) {
+        return colorRepository.findById(id);
     }
 
-    public Optional<Color> updateColors(Long id, Color updated) {
-        return colorsRepository.findById(id).map(existing -> {
+    public Optional<Color> updateColor(Long id, Color updated) {
+        return colorRepository.findById(id).map(existing -> {
             existing.setColorCode(updated.getColorCode());
             existing.setColorLabel(updated.getColorLabel());
             existing.setColorHex(updated.getColorHex());
-            return colorsRepository.save(existing);
+            return colorRepository.save(existing);
         });
     }
 
-    public boolean deleteColors(Long id) {
-        if (colorsRepository.existsById(id)) {
-            colorsRepository.deleteById(id);
+    public boolean deleteColor(Long id) {
+        if (colorRepository.existsById(id)) {
+            colorRepository.deleteById(id);
             return true;
         }
         return false;

@@ -6,43 +6,43 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/colors")
-public class ColorsController {
+@RequestMapping("/api/color")
+public class ColorController {
 
-    private final ColorsService colorsService;
+    private final ColorService colorService;
 
 
-    public ColorsController(ColorsService colorsService) {
-        this.colorsService = colorsService;
+    public ColorController(ColorService colorService) {
+        this.colorService = colorService;
     }
 
     @PostMapping
-    public ResponseEntity<Color> createColors(@RequestBody Color color) {
-        return ResponseEntity.ok(colorsService.createColors(color));
+    public ResponseEntity<Color> createColor(@RequestBody Color color) {
+        return ResponseEntity.ok(colorService.createColor(color));
     }
 
     @GetMapping
-    public List<Color> getAllColors() {
-        return colorsService.getAllColors();
+    public List<Color> getAllColor() {
+        return colorService.getAllColor();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Color> getColorsById(@PathVariable Long id) {
-        return colorsService.getColorsById(id)
+    public ResponseEntity<Color> getColorById(@PathVariable Long id) {
+        return colorService.getColorById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Color> updateColors(@PathVariable Long id, @RequestBody Color color) {
-        return colorsService.updateColors(id, color)
+    public ResponseEntity<Color> updateColor(@PathVariable Long id, @RequestBody Color color) {
+        return colorService.updateColor(id, color)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteColors(@PathVariable Long id) {
-        boolean deleted = colorsService.deleteColors(id);
+    public ResponseEntity<Void> deleteColor(@PathVariable Long id) {
+        boolean deleted = colorService.deleteColor(id);
         return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 

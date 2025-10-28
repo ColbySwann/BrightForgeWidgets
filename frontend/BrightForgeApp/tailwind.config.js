@@ -7,4 +7,9 @@ module.exports = withMT({
     },
     variants: {},
     plugins: [],
+    safelist: [
+        {
+            pattern: /bg-\[#[0-9a-fA-F]{3,6}\]/,
+        },
+    ],
 });
