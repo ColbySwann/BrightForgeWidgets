@@ -28,6 +28,7 @@ const AdminPage = () => {
             try {
                 await axios.delete(`http://localhost:8080/api/products/${id}`);
                 alert("Product Deleted!")
+                setShouldRefresh(prev => !prev)
             }catch (err) {
                 console.error(err)
                 alert("Failed to delete product")
