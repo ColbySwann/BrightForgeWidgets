@@ -2,12 +2,22 @@ import React, { useEffect, useState } from "react";
 import Card from "../Components/Card.jsx";
 import axios from "axios";
 import api from "../api/axiosInstance.js";
+import {useLocation} from "react-router-dom";
 
 const WidgetListPage = () => {
     const [products, setProducts] = useState([]);
     const [filterColor, setFilterColor] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
     const [colors, setColors] = useState([]);
+
+    const location = useLocation();
+
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const query = params.get("search") || "";
+        setSearchQuery(query);
+    }, [location.search]);
+
 
     useEffect(() => {
         axios.get("http://localhost:8080/api/products")

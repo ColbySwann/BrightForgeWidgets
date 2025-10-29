@@ -28,7 +28,7 @@ const widgetSchema = yup.object().shape({
         // .required("Image URL is required"),
 });
 
-const WidgetForm = () => {
+const WidgetForm = ({onSubmissionSuccess}) => {
     const [imageFile, setImageFile] = useState(null);
     const [preview, setPreview] = useState(null);
     const [colors, setColors] = useState([]);
@@ -82,6 +82,7 @@ const WidgetForm = () => {
             setImageFile(null);
             setPreview(null);
             alert("Widget added successfully!");
+            onSubmissionSuccess();
         }catch (err) {
             console.error(err);
             alert("Error adding widget");

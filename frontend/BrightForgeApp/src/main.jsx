@@ -24,7 +24,7 @@ const router = createBrowserRouter([
             {path: "splash", element: <SplashPage />},
             {path: "widgets", element: <WidgetListPage />},
             {path: "login", element: <LoginPage />},
-            {path: "edit", element: <EditWidgetPage />},
+            {path: "edit/:id", element: <EditWidgetPage />},
             {path: "about", element: <AboutPage />},
             {path: "register", element: <RegistrationPage />},
             {index: true, element: <SplashPage />},

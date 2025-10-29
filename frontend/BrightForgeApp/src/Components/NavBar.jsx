@@ -17,7 +17,7 @@ const NavBar = () => {
     const handleSearch = (evt) => {
         evt.preventDefault();
         if (searchTerm.trim() !== "") {
-            navigate(`/search?q=${searchTerm}`);
+            navigate(`/widgets?search=${encodeURIComponent(searchTerm)}`);
             setSearchTerm("");
             setIsOpen(false);
         }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext.jsx";
 
-const Card = ({ product, onEdit, onDelete }) => {
+const Card = ({ product, onEdit, onDelete, showAdminControls }) => {
     const [flipped, setFlipped] = useState(false);
     const { isAdmin } = useAuth();
 
@@ -66,12 +66,12 @@ const Card = ({ product, onEdit, onDelete }) => {
                     </div>
 
                     {/* Admin & Flip Button */}
-                    {isAdmin && (
+                    {showAdminControls && isAdmin && (
                         <div className="absolute top-86 right-25 flex gap-2 z-10">
                             <button
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    onEdit && onEdit(product);
+                                    onEdit && onEdit(product.id);
                                 }}
                                 className="bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-1 rounded-md"
                             >

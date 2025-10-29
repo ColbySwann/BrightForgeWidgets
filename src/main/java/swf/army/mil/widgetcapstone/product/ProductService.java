@@ -42,7 +42,10 @@ public class ProductService {
          if (optionalProduct.isPresent()) {
              Product existingProduct = optionalProduct.get();
              existingProduct.setName(updated.getName());
-             existingProduct.setSlug(updated.getSlug());
+             if (existingProduct.getSlug() == null || existingProduct.getSlug().isBlank()) {
+                 String slug = generateSlug(existingProduct.getName());
+                 existingProduct.setSlug(slug);
+             }
              existingProduct.setBlurb(updated.getBlurb());
              existingProduct.setColor(updated.getColor());
              existingProduct.setImageUrl(updated.getImageUrl());
