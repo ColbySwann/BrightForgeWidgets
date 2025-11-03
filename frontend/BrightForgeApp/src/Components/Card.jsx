@@ -29,8 +29,8 @@ const Card = ({ product, onEdit, onDelete, showAdminControls, onHandleRefresh })
                 {/* Front */}
                 <div className="absolute inset-0 bg-white rounded-xl shadow-md hover:shadow-lg transition-transform hover:-translate-y-1 p-4 [backface-visibility:hidden] flex flex-col justify-between">
                     {/* Image */}
-                    <div className="w-full h-48 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
-                        <img src={imageSrc} alt={product.name} className="object-cover w-full h-full" />
+                    <div className="w-full h-full bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
+                        <img src={imageSrc} alt={product.name} className="object-cover w-fit h-fit" />
                     </div>
 
                     {/* Info */}
