@@ -14,10 +14,9 @@ import swf.army.mil.widgetcapstone.user.UserRepository;
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.stream.Collectors.toList;
-
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class CartService {
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
@@ -36,6 +35,8 @@ public class CartService {
                 });
     }
 
+
+    @Transactional
     public Cart addItem(Long userId, Long productId, Long colorId, int qty) {
         Cart cart = getOrCreateCart(userId);
         Product product = productRepository.findById(productId)
@@ -43,28 +44,54 @@ public class CartService {
         Color color = colorRepository.findById(colorId)
                 .orElseThrow(() -> new RuntimeException("Color not found"));
 
-        Optional<CartItem> existing = cart.getItems().stream()
-                .filter(i -> i.getProduct().equals(product) && i.getColor().equals(color))
-                .findFirst();
-
-
-        if (existing.isPresent()) {
-            existing.get().setQuantity(existing.get().getQuantity() + qty);
-        }else {
-            CartItem item = new CartItem();
-            item.setCart(cart);
-            item.setProduct(product);
-            item.setColor(color);
-            item.setQuantity(qty);
-            item.setUnitPrice(product.getPrice());
-            cart.getItems().add(item);
+        if (product.getQty() <= 0) {
+            throw new RuntimeException("Item Out of Stock");
+        }else if (product.getLifecycleStatus().getStatusCode().equals("oos_permanent")) {
+            throw  new RuntimeException("Item Out of Stock Permanently");
         }
+
+        CartItem item = cart.getItems().stream()
+                        .filter(i -> i.getProduct().equals(product) && i.getColor().equals(color))
+                                .findFirst()
+                                .orElseGet(() -> {
+                                        CartItem newItem = new CartItem();
+                                        newItem.setCart(cart);
+                                        newItem.setProduct(product);
+                                        newItem.setColor(color);
+                                        newItem.setQuantity(0);
+                                        newItem.setUnitPrice(product.getPrice());
+                                        cart.getItems().add(newItem);
+                                        return newItem;
+                                        });
+        item.setQuantity(item.getQuantity() + qty);
+
+        product.setQty(product.getQty() -qty);
+        productRepository.save(product);
+
+
         return cartRepository.save(cart);
     }
 
+    @Transactional
     public void removeItem(Long userId, Long cartItemId) {
         Cart cart = getOrCreateCart(userId);
+
+        CartItem cartItem= cartItemRepository.findById(cartItemId)
+                .orElseThrow(() -> new RuntimeException("Cart Item not found"));
+
+        Long productId = cartItem.getProduct().getId();
+        Product product = productRepository.findById(productId)
+                        .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        int restoredQty = product.getQty() + cartItem.getQuantity();
+        product.setQty(restoredQty);
+
+        productRepository.saveAndFlush(product);
+
+        cart.getItems().remove(cartItem);
         cartItemRepository.deleteById(cartItemId);
+
+        cartRepository.save(cart);
     }
 
     public Cart getCart(Long userId) {
@@ -80,14 +107,30 @@ public class CartService {
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Item not found in cart"));
 
+        Product product = item.getProduct();
+
+        int currentQtyInCart = item.getQuantity();
+        int availStock = product.getQty();
+
+        int delta = quantity - currentQtyInCart;
+
+        if (delta > 0) {
+            if (availStock < delta) {
+                throw new RuntimeException("Not enough stock available");
+            }
+
+            product.setQty(availStock - delta);
+        }else if (delta < 0) {
+            product.setQty(availStock + Math.abs(delta));
+        }
+
         if (quantity <= 0) {
-            cartItemRepository.delete(item);
-            cart.getItems().remove(item);
+            removeItem(userId, cartItemId);
         }else {
             item.setQuantity(quantity);
             cartItemRepository.save(item);
         }
-
+        productRepository.save(product);
         return cartRepository.save(cart);
     }
 

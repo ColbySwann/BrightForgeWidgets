@@ -51,17 +51,31 @@ export const CartProvider = ({children}) => {
 
     const updateQuantity = async (cartItemId, newQty) => {
         try {
-            const cid = Number(cartItemId);
-            const userId = Number(user.id);
+            const userId = Number(user?.id);
+            if (!userId || !cartItemId) {
+                console.error("Missing user or cart item ID");
+                return;
+            }
+
             const res = await api.put(
-                `http://localhost:8080/api/cart/${userId}/update/${cid}`,
-                {quantity: newQty}
+                `http://localhost:8080/api/cart/${userId}/update/${Number(cartItemId)}`,
+                { quantity: newQty }
             );
+
             setCart(res.data);
-        }catch (err) {
+        } catch (err) {
             console.error("Error updating quantity:", err);
+
+            if (err.response?.status === 400 && err.response?.data?.message) {
+                alert(err.response.data.message); // later replace with toast
+            } else if (err.response?.status === 403) {
+                alert("You are not authorized to perform this action.");
+            } else {
+                alert("Something went wrong while updating your cart.");
+            }
         }
     };
+
 
     const removeFromCart = async (cartItemId) => {
         try {

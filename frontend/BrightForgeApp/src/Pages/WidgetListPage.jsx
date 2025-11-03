@@ -3,12 +3,14 @@ import Card from "../Components/Card.jsx";
 import axios from "axios";
 import api from "../api/axiosInstance.js";
 import {useLocation} from "react-router-dom";
+import card from "../Components/Card.jsx";
 
 const WidgetListPage = () => {
     const [products, setProducts] = useState([]);
     const [filterColor, setFilterColor] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
     const [colors, setColors] = useState([]);
+    const [refresh, setRefresh] = useState(true);
 
     const location = useLocation();
 
@@ -27,17 +29,25 @@ const WidgetListPage = () => {
         axios.get("http://localhost:8080/api/color")
             .then(res => setColors(res.data))
             .catch((err) => console.error("Error fetching Colors", err));
-    }, []);
+    }, [refresh]);
+
+    const handleRefresh = () => {
+        setRefresh(prevState => !prevState);
+    }
+
 
     const filteredProducts = products
         .filter((w) => w.name.toLowerCase().includes(searchQuery.toLowerCase()))
-        .filter((w) => !filterColor || w.color.colorLabel?.toLowerCase() === filterColor.toLowerCase());
+        .filter((w) => !filterColor || w.color.colorLabel?.toLowerCase() === filterColor.toLowerCase())
+        .filter((w) => w.lifecycleStatus.description !== ("Out of stock permanently"))
+        .filter((w) => w.qty > 0)
+        .sort((a,b) => a.name.localeCompare(b.name));
 
 
 
     return (
         <div className="relative top-20 left-1/16 p-6 max-w-10/12 bg-gray-700 min-h-screen overscroll-contain">
-            {/* 🔍 Search + Filter Controls */}
+            {/* Search + Filter Controls */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4">
                 {/* Search Input */}
                 <input
@@ -69,7 +79,7 @@ const WidgetListPage = () => {
             {filteredProducts.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {filteredProducts.map((product) => (
-                        <Card key={product.id} product={product} onEdit={() => handleEdit(product)} onDelete ={() => handleDelete(product.id)} />
+                        <Card key={product.id} product={product} onEdit={() => handleEdit(product)} onDelete ={() => handleDelete(product.id)} onHandleRefresh={handleRefresh} />
                     ))}
                 </div>
             ) : (

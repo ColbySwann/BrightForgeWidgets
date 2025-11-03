@@ -28,7 +28,7 @@ const SplashPage = () => {
             <h1 className={"text-5xl font-bold text-white mb-4 text-center"}>
                 Welcome to BrightForge Widgets
             </h1>
-            <p className={"text-4xl font-bold text-white mb-4 text-center"}>{username}</p>
+            <p className={"text-6xl font-extrabold bg-gradient-to-r from-orange-600 via-gray-500 to-indigo-400 text-transparent bg-clip-text animate-gradient-text animate-gradient-text-bg"}>{username}</p>
             <p className={"text-lg text-white mb-12 text-center max-w-2xl"}>
                 Discover the next generation of widget management - smarter tracking, cleaner analytics, and total customization
             </p>

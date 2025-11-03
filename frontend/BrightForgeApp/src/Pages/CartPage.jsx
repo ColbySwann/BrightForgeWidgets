@@ -65,6 +65,7 @@ export const CartPage = () => {
                         <input type="number"
                                defaultValue={item.quantity}
                                min={"1"}
+                               max={item.product.qty + 1}
                                onBlur={(e) =>
                                    updateQuantity(item.cartItemId, parseInt(e.target.value))
                                }

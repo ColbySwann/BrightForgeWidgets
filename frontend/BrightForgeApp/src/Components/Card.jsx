@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext.jsx";
 import {useCart} from "../context/CartContext.jsx";
+import api from "../api/axiosInstance.js";
+import axios from "axios";
 
-const Card = ({ product, onEdit, onDelete, showAdminControls }) => {
+const Card = ({ product, onEdit, onDelete, showAdminControls, onHandleRefresh }) => {
     const [flipped, setFlipped] = useState(false);
     const { isAdmin } = useAuth();
     const {addToCart} = useCart();
@@ -75,11 +77,12 @@ const Card = ({ product, onEdit, onDelete, showAdminControls }) => {
 
 
 
-                    <button onClick={(e) => {
+                    <button onClick={async (e) => {
                         e.stopPropagation();
-                        addToCart(Number(product.id), Number(product.color?.colorId), 1);
+                        await addToCart(Number(product.id), Number(product.color?.colorId), 1);
+                        setTimeout(() => {onHandleRefresh();}, 100);
                     }}
-                        className={"bg-green-600 hover:bg-green-700 text-white text-xs px-3 py-1 rounded-md mt-2"}>
+                        className={"bg-green-600 hover:bg-green-700 text-white text-xs px-3 py-1 rounded-md mt-2 active:bg-green-800 active:shadow-inner active:translate-y-px"}>
                         Add to Cart
                     </button>
 
