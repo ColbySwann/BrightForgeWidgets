@@ -1,7 +1,9 @@
 package swf.army.mil.widgetcapstone.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
+import swf.army.mil.widgetcapstone.cart.Cart;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -11,7 +13,7 @@ import java.util.Collections;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
 
     @Id
@@ -35,6 +37,10 @@ public class User {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private Role role;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("user")
+    private Cart cart;
 
     public User(String username, String email, String password, Role role) {
         this.username = username;

@@ -28,7 +28,7 @@ public class UserService {
             throw new RuntimeException("Email already registered");
         }
 
-        Role role = roleRepository.findByRoleName("ADMIN")
+        Role role = roleRepository.findByRoleName("USER")
                 .orElseThrow(() -> new RuntimeException("Role not found"));
 
         User user = new User();
@@ -57,7 +57,12 @@ public class UserService {
                 user.getUsername(),
                 user.getEmail(),
                 token,
-                user.getRole().getRoleName()
+                user.getRole().getRoleName(),
+                user.getId()
         );
+    }
+
+    public Optional<User> findUserById(Long id) {
+        return userRepository.findById(id);
     }
 }

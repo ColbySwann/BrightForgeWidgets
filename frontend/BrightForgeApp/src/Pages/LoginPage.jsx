@@ -27,11 +27,13 @@ export default function LoginPage() {
 
             console.log("Login response: ", res.data);
 
-            api.defaults.headers.common["Authorization"] = `Bearer ${res.data.token}`;
+            const {token, role, username, id} = res.data;
 
-            login(res.data.token, res.data.role, res.data.username);
+            api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-            if (res.data.role === "ADMIN") {
+            login(token, role, username, id);
+
+            if (role === "ADMIN") {
                 navigate("/admin");
             }else {
                 navigate("/");

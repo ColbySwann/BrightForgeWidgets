@@ -16,6 +16,11 @@ const widgetSchema = yup.object().shape({
         .number()
         .typeError("Quantity mut be a number")
         .required("Quantity is required"),
+    price: yup
+        .number()
+        .min(0)
+        .typeError("Price must be a number")
+        .required("Price is required"),
     color: yup
         .number()
         .required("Color is required"),
@@ -40,6 +45,7 @@ const WidgetForm = ({onSubmissionSuccess}) => {
             name: "",
             description: "",
             qty: "",
+            price: "",
             color: "",
             lifecycleStatus: "",
             imageUrl: "",
@@ -72,6 +78,7 @@ const WidgetForm = ({onSubmissionSuccess}) => {
                 name: data.name,
                 blurb: data.description,
                 qty: data.qty,
+                price: data.price,
                 color: {colorId: data.color},
                 lifecycleStatus: {lifecycleStatusId: data.lifecycleStatus},
                 imageUrl: imageUrl
@@ -130,6 +137,18 @@ const WidgetForm = ({onSubmissionSuccess}) => {
                     className={"w-full p-2 rounded bg-gray-700 border border-gray-600 focus:border-orange-400 outline-none"}/>
                 {errors.qty && (
                     <p className="text-red-400 text-sm mt-1">{errors.qty.message}</p>
+                )}
+            </div>
+
+            <div>
+                <label className={"block text-sm mb-1"}>Price</label>
+                <input
+                    type={"number"}
+                    {...register("price")}
+                    step={"0.01"}
+                    className={"w-full p-2 rounded bg-gray-700 border border-gray-600 focus:border-orange-400 outline-none"}/>
+                {errors.price && (
+                    <p className="text-red-400 text-sm mt-1">{errors.price.message}</p>
                 )}
             </div>
 

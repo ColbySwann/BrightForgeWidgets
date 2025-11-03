@@ -2,12 +2,17 @@ import React, { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Logo from "../assets/images/Icon-Only-White.png";
+import {useCart} from "../context/CartContext.jsx";
+import {ShoppingCart} from "lucide-react";
 
 const NavBar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const { user, isAdmin, logout } = useAuth();
     const navigate = useNavigate();
+    const {cart} = useCart();
+
+    const cartCount = cart?.items?.reduce((sum, i) => sum + i.quantity, 0) ?? 0;
 
     const handleLogout = () => {
         if (logout) logout();
@@ -93,6 +98,15 @@ const NavBar = () => {
                                 </svg>
                             </button>
                         </form>
+
+                        <Link to={"/cart"} className={"relative flex items-center"}>
+                            <ShoppingCart className={"h-6 w-6 text-white hover:text-orange-300"} />
+                            {cartCount > 0 && (
+                                <span className={"absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full px-1.5 py-0.5"}>
+                                    {cartCount}
+                                </span>
+                            )}
+                        </Link>
 
                         {/* Auth Button */}
                         {user ? (
@@ -211,6 +225,20 @@ const NavBar = () => {
                                 </svg>
                             </button>
                         </form>
+
+                        <Link
+                            to="/cart"
+                            onClick={() => setIsOpen(false)}
+                            className="flex items-center justify-between bg-gray-900 text-orange-400 font-semibold px-4 py-2 rounded-lg hover:bg-gray-800"
+                        >
+                            <span>Cart</span>
+                            {cartCount > 0 && (
+                                <span className="bg-red-500 text-white text-xs font-bold rounded-full px-2 py-0.5">
+                                    {cartCount}
+                                </span>
+                            )}
+                        </Link>
+
 
                         {user ? (
                             <button

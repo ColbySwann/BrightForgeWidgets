@@ -19,6 +19,11 @@ const productEditSchema = yup.object().shape(
             .number()
             .typeError("Quantity must be a number")
             .required("Product must have a quantity, even a negative number"),
+        price: yup
+            .number()
+            .min(0)
+            .typeError("Price must be a number")
+            .required("Price is required"),
         color: yup
             .number()
             .required("Products must have a color"),
@@ -75,6 +80,7 @@ export const EditWidgetPage = () => {
                 name: product.name,
                 description: product.blurb,
                 qty: product.qty,
+                price: product.price,
                 color: product.color?.colorId,
                 rating: product.usefulnessRating,
                 lifecycleStatus: product.lifecycleStatus?.lifecycleStatusId,
@@ -103,6 +109,7 @@ export const EditWidgetPage = () => {
                 blurb: data.description,
                 slug,
                 qty: data.qty,
+                price: data.price,
                 color: { colorId: data.color },
                 lifecycleStatus: { lifecycleStatusId: data.lifecycleStatus },
                 imageUrl,
@@ -173,6 +180,18 @@ export const EditWidgetPage = () => {
                                 className={"w-full p-2 rounded bg-gray-700 border border-gray-600 focus:border-orange-400 outline-none"}/>
                             {errors.qty && (
                                 <p className="text-red-400 text-sm mt-1">{errors.qty.message}</p>
+                            )}
+                        </div>
+
+                        <div>
+                            <label className={"block text-sm mb-1"}>Price</label>
+                            <input
+                                type={"number"}
+                                {...register("price")}
+                                step={"0.01"}
+                                className={"w-full p-2 rounded bg-gray-700 border border-gray-600 focus:border-orange-400 outline-none"}/>
+                            {errors.price && (
+                                <p className="text-red-400 text-sm mt-1">{errors.price.message}</p>
                             )}
                         </div>
 

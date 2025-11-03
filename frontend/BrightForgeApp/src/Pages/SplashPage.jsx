@@ -1,6 +1,5 @@
-import Card from '../Components/Card.jsx'
-import {useEffect, useState} from "react";
 import {HoverCard} from "../Components/HoverCard.jsx";
+
 
 const SplashPage = () => {
     const cards = [
@@ -20,6 +19,7 @@ const SplashPage = () => {
             long: "Mix, match, and customize widgets to suit your workflow with our modular design and dynamic creation tools.",
         }
     ]
+    const username = localStorage.getItem("username")
 
 
 
@@ -28,6 +28,7 @@ const SplashPage = () => {
             <h1 className={"text-5xl font-bold text-white mb-4 text-center"}>
                 Welcome to BrightForge Widgets
             </h1>
+            <p className={"text-4xl font-bold text-white mb-4 text-center"}>{username}</p>
             <p className={"text-lg text-white mb-12 text-center max-w-2xl"}>
                 Discover the next generation of widget management - smarter tracking, cleaner analytics, and total customization
             </p>

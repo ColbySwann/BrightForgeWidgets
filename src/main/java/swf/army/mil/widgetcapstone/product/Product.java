@@ -1,12 +1,15 @@
 package swf.army.mil.widgetcapstone.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import swf.army.mil.widgetcapstone.colors.Color;
 import swf.army.mil.widgetcapstone.lifecycleStatus.LifecycleStatus;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "product")
 @Data
@@ -24,11 +27,15 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "color_id")
+    @JsonIgnoreProperties({"product"})
     private Color color;
 
     private String imageUrl;
     private double usefulnessRating = 1.0;
     private int qty;
+
+    @Column(nullable = false)
+    private BigDecimal price = BigDecimal.ZERO;
 
     @ManyToOne
     @JoinColumn(name = "lifecycle_status")

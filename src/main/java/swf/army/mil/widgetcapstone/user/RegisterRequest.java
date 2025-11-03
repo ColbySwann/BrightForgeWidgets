@@ -13,6 +13,6 @@ public class RegisterRequest {
     @NotBlank
     private String email;
     @NotBlank
-    private String role = "ADMIN";
+    private String role = "USER";
 
 }

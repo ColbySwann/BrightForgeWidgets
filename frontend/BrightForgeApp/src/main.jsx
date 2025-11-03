@@ -14,6 +14,8 @@ import { AuthProvider } from "./context/AuthContext.jsx"
 import ProtectedRoute from "./router/ProtectedRoute.jsx";
 import RegistrationPage from "./Pages/RegistrationPage.jsx";
 import {EditWidgetPage} from "./Pages/EditWidgetPage.jsx";
+import {CartProvider} from "./context/CartContext.jsx";
+import {CartPage} from "./Pages/CartPage.jsx";
 
 const router = createBrowserRouter([
     {
@@ -25,6 +27,7 @@ const router = createBrowserRouter([
             {path: "widgets", element: <WidgetListPage />},
             {path: "login", element: <LoginPage />},
             {path: "edit/:id", element: <EditWidgetPage />},
+            {path: "cart", element: <CartPage />},
             {path: "about", element: <AboutPage />},
             {path: "register", element: <RegistrationPage />},
             {index: true, element: <SplashPage />},
@@ -43,7 +46,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
       <AuthProvider>
-          <RouterProvider router={router} />
+          <CartProvider>
+              <RouterProvider router={router} />
+          </CartProvider>
       </AuthProvider>
   </StrictMode>,
 )

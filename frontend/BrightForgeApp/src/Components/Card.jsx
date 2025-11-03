@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext.jsx";
+import {useCart} from "../context/CartContext.jsx";
 
 const Card = ({ product, onEdit, onDelete, showAdminControls }) => {
     const [flipped, setFlipped] = useState(false);
     const { isAdmin } = useAuth();
+    const {addToCart} = useCart();
 
     const imageSrc =
         product.imageUrl && product.imageUrl.trim() !== ""
@@ -43,27 +45,44 @@ const Card = ({ product, onEdit, onDelete, showAdminControls }) => {
                                 ></div>
                             </div>
                             <span className="text-orange-600 font-semibold">
-                QTY: {product.qty?.toString() || "0"}
-              </span>
+                                QTY: {product.qty?.toString() || "0"}
+                            </span>
                         </div>
 
-                        {product.usefulnessRating && (
-                            <div className="flex items-center mt-2">
-                                {[...Array(5)].map((_, i) => (
-                                    <svg
-                                        key={i}
-                                        className={`w-4 h-4 ${
-                                            i < product.usefulnessRating ? "text-yellow-400" : "text-gray-300"
-                                        }`}
-                                        fill="currentColor"
-                                        viewBox="0 0 20 20"
-                                    >
-                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.975a1 1 0 00.95.69h4.182c.969 0 1.371 1.24.588 1.81l-3.385 2.46a1 1 0 00-.364 1.118l1.287 3.974c.3.922-.755 1.688-1.54 1.118l-3.385-2.46a1 1 0 00-1.175 0l-3.385 2.46c-.785.57-1.84-.196-1.54-1.118l1.287-3.974a1 1 0 00-.364-1.118L2.045 9.402c-.783-.57-.38-1.81.588-1.81h4.182a1 1 0 00.95-.69l1.286-3.975z" />
-                                    </svg>
-                                ))}
-                            </div>
-                        )}
+                        <div className="flex justify-between items-center mt-3">
+                            {product.usefulnessRating && (
+                                <div className="flex items-center mt-2">
+                                    {[...Array(5)].map((_, i) => (
+                                        <svg
+                                            key={i}
+                                            className={`w-4 h-4 ${
+                                                i < product.usefulnessRating ? "text-yellow-400" : "text-gray-300"
+                                            }`}
+                                            fill="currentColor"
+                                            viewBox="0 0 20 20"
+                                        >
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.975a1 1 0 00.95.69h4.182c.969 0 1.371 1.24.588 1.81l-3.385 2.46a1 1 0 00-.364 1.118l1.287 3.974c.3.922-.755 1.688-1.54 1.118l-3.385-2.46a1 1 0 00-1.175 0l-3.385 2.46c-.785.57-1.84-.196-1.54-1.118l1.287-3.974a1 1 0 00-.364-1.118L2.045 9.402c-.783-.57-.38-1.81.588-1.81h4.182a1 1 0 00.95-.69l1.286-3.975z" />
+                                        </svg>
+                                    ))}
+                                </div>
+                            )}
+                            <span className="text-orange-600 font-semibold">
+                                Price: ${product.price?.toString() || "0"}
+                            </span>
+                        </div>
+
                     </div>
+
+
+
+                    <button onClick={(e) => {
+                        e.stopPropagation();
+                        addToCart(Number(product.id), Number(product.color?.colorId), 1);
+                    }}
+                        className={"bg-green-600 hover:bg-green-700 text-white text-xs px-3 py-1 rounded-md mt-2"}>
+                        Add to Cart
+                    </button>
+
 
                     {/* Admin & Flip Button */}
                     {showAdminControls && isAdmin && (
@@ -112,7 +131,7 @@ const Card = ({ product, onEdit, onDelete, showAdminControls }) => {
                     product.qty > 0 ? "text-green-300" : "text-red-300"
                 }`}
             >
-              {product.qty}
+              QTY: {product.qty}
             </span>
                     </p>
                     <button
