@@ -44,6 +44,11 @@ public class Product {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    public Product(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
 
     @Override
     public String toString() {
