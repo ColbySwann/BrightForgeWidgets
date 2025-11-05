@@ -69,7 +69,7 @@ export const CartProvider = ({children}) => {
             if (err.response?.status === 400 && err.response?.data?.message) {
                 alert(err.response.data.message); // later replace with toast
             } else if (err.response?.status === 403) {
-                alert("You are not authorized to perform this action.");
+                alert("Not Enough Items In Stock. Please Limit Purchase to the Max Quantity");
             } else {
                 alert("Something went wrong while updating your cart.");
             }

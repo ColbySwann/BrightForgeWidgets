@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { useAuth } from "../context/AuthContext.jsx";
 import {useCart} from "../context/CartContext.jsx";
 import api from "../api/axiosInstance.js";
@@ -6,6 +6,7 @@ import axios from "axios";
 
 const Card = ({ product, onEdit, onDelete, showAdminControls, onHandleRefresh }) => {
     const [flipped, setFlipped] = useState(false);
+    const [colors, setColors] = useState([]);
     const { isAdmin } = useAuth();
     const {addToCart} = useCart();
 
@@ -19,6 +20,11 @@ const Card = ({ product, onEdit, onDelete, showAdminControls, onHandleRefresh })
         setFlipped((prev) => !prev);
     };
 
+    useEffect(() => {
+        axios.get("http://localhost:8080/api/color")
+            .then(res => setColors(res.data))
+    }, []);
+
     return (
         <div className="relative w-full h-96 [perspective:1200px] transition-all duration-300 hover:[perspective:1500px]">
             <div
@@ -29,14 +35,13 @@ const Card = ({ product, onEdit, onDelete, showAdminControls, onHandleRefresh })
                 {/* Front */}
                 <div className="absolute inset-0 bg-white rounded-xl shadow-md hover:shadow-lg transition-transform hover:-translate-y-1 p-4 [backface-visibility:hidden] flex flex-col justify-between">
                     {/* Image */}
-                    <div className="w-full h-full bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
-                        <img src={imageSrc} alt={product.name} className="object-cover w-fit h-fit" />
+                    <div className="w-full min-h-24 h-36 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
+                        <img src={imageSrc} alt={product.name} className="object-cover w-fit h-full" />
                     </div>
 
                     {/* Info */}
                     <div className="mt-3">
                         <h3 className="text-lg font-bold text-gray-800">{product.name}</h3>
-                        <p className="text-gray-600 text-sm mt-1 line-clamp-2">{product.blurb}</p>
 
                         <div className="flex justify-between items-center mt-3">
                             <div className="flex items-center space-x-2">
@@ -51,7 +56,7 @@ const Card = ({ product, onEdit, onDelete, showAdminControls, onHandleRefresh })
                             </span>
                         </div>
 
-                        <div className="flex justify-between items-center mt-3">
+                        <div className="flex justify-between items-center mt-3 pb-0 mb-0">
                             {product.usefulnessRating && (
                                 <div className="flex items-center mt-2">
                                     {[...Array(5)].map((_, i) => (
@@ -69,7 +74,7 @@ const Card = ({ product, onEdit, onDelete, showAdminControls, onHandleRefresh })
                                 </div>
                             )}
                             <span className="text-orange-600 font-semibold">
-                                Price: ${product.price?.toString() || "0"}
+                                ${product.price?.toString() || "0"}
                             </span>
                         </div>
 

@@ -58,6 +58,9 @@ export const CartPage = () => {
                             <p className={"text-sm text-gray-400"}>
                                 ${item.product.price.toFixed(2)}
                             </p>
+                            <p className={"text-sm text-gray-400"}>
+                               QTY: {item.product.qty + item.quantity}
+                            </p>
                         </div>
                     </div>
 
