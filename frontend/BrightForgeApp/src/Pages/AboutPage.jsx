@@ -1,10 +1,4 @@
 
-import {Carousel} from "flowbite-react";
-import image1 from "../assets/images/kevin-ku-w7ZyuGYNpRQ-unsplash.jpg";
-import image2 from "../assets/images/annie-spratt-QckxruozjRg-unsplash.jpg";
-import image3 from "../assets/images/aranprime-1B-k2jrUHwU-unsplash.jpg";
-import image4 from "../assets/images/arif-riyanto-vJP-wZ6hGBg-unsplash.jpg";
-
 const AboutPage = () => {
     return(
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 content-center">

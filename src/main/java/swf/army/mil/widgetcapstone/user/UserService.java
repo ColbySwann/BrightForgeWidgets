@@ -1,8 +1,6 @@
 package swf.army.mil.widgetcapstone.user;
 
-import jakarta.persistence.Id;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

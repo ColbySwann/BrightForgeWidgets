@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Card from "../Components/Card.jsx";
 import axios from "axios";
-import api from "../api/axiosInstance.js";
 import {useLocation} from "react-router-dom";
-import card from "../Components/Card.jsx";
 
 const WidgetListPage = () => {
     const [products, setProducts] = useState([]);

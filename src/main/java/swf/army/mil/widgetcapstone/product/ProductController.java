@@ -1,9 +1,7 @@
 package swf.army.mil.widgetcapstone.product;
 
-import swf.army.mil.widgetcapstone.product.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import swf.army.mil.widgetcapstone.product.Product;
 
 import java.util.List;
 

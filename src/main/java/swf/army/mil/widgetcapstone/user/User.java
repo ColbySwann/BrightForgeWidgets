@@ -6,7 +6,6 @@ import lombok.*;
 import swf.army.mil.widgetcapstone.cart.Cart;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 
 @Entity
 @Table(name = "users")

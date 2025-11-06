@@ -2,8 +2,6 @@ package swf.army.mil.widgetcapstone.product;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import swf.army.mil.widgetcapstone.product.Product;
-import swf.army.mil.widgetcapstone.product.ProductRepository;
 
 import java.text.Normalizer;
 import java.time.LocalDateTime;

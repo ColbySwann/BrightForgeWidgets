@@ -12,7 +12,6 @@ import swf.army.mil.widgetcapstone.product.ProductRepository;
 import swf.army.mil.widgetcapstone.user.UserRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
