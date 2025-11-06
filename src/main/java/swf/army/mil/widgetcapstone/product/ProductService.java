@@ -36,27 +36,25 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
-    public Optional<Product> updateProduct(Long id, Product updated) {
-         Optional<Product> optionalProduct = productRepository.findById(id);
+    public Product updateProduct(Long id, Product updated) {
+         Product optionalProduct = productRepository.findById(id)
+                 .orElseThrow(() -> new RuntimeException("Product Not Found"));
 
-         if (optionalProduct.isPresent()) {
-             Product existingProduct = optionalProduct.get();
-             existingProduct.setName(updated.getName());
-             if (existingProduct.getSlug() == null || existingProduct.getSlug().isBlank()) {
-                 String slug = generateSlug(existingProduct.getName());
-                 existingProduct.setSlug(slug);
+             optionalProduct.setName(updated.getName());
+             if (optionalProduct.getSlug() == null || optionalProduct.getSlug().isBlank()) {
+                 String slug = generateSlug(optionalProduct.getName());
+                 optionalProduct.setSlug(slug);
              }
-             existingProduct.setBlurb(updated.getBlurb());
-             existingProduct.setColor(updated.getColor());
-             existingProduct.setImageUrl(updated.getImageUrl());
-             existingProduct.setUsefulnessRating(updated.getUsefulnessRating());
-             existingProduct.setQty(updated.getQty());
-             existingProduct.setLifecycleStatus(updated.getLifecycleStatus());
-             existingProduct.setUpdatedAt(LocalDateTime.now());
-             return Optional.of(productRepository.save(existingProduct));
-         }else{
-             throw new RuntimeException("Product not found with id: " + id);
-         }
+             optionalProduct.setBlurb(updated.getBlurb());
+             optionalProduct.setColor(updated.getColor());
+             optionalProduct.setImageUrl(updated.getImageUrl());
+             optionalProduct.setUsefulnessRating(updated.getUsefulnessRating());
+             optionalProduct.setQty(updated.getQty());
+             optionalProduct.setLifecycleStatus(updated.getLifecycleStatus());
+             optionalProduct.setUpdatedAt(LocalDateTime.now());
+             return productRepository.save(optionalProduct);
+
+
     }
 
     public boolean deleteProduct(Long id) {

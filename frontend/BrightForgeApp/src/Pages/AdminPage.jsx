@@ -1,20 +1,11 @@
 import React, { useEffect, useState } from "react";
 import WidgetForm from "../Components/WidgetForm.jsx";
 import Card from "../Components/Card.jsx";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
 const AdminPage = () => {
     const [products, setProducts] = useState([]);
-    const [form, setForm] = useState({
-        name: "",
-        description: "",
-        qty: "",
-        color: "",
-        rating: "",
-        lifecycleStatus: "",
-        imageUrl: "",
-    })
     const [shouldRefresh, setShouldRefresh] = useState(false);
     
     const navigate = useNavigate();
@@ -35,6 +26,9 @@ const AdminPage = () => {
             }
         }
     };
+
+    const filteredProducts = products
+        .sort((a,b) => a.name.localeCompare(b.name));
 
     const handleFormSubmissionSuccess = () => {
         setShouldRefresh(prev => !prev);
@@ -58,7 +52,7 @@ const AdminPage = () => {
             <WidgetForm onSubmissionSuccess = {handleFormSubmissionSuccess} />
 
             <div className={"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pt-10"}>
-                {products.map((products) => (
+                {filteredProducts.map((products) => (
                     <div key={products.id} className={"relative"}>
                         <Card showAdminControls={true} product={products} onEdit={handleEdit} onDelete={() => handleDelete(products.id)} />
                     </div>

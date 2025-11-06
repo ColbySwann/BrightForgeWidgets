@@ -21,7 +21,6 @@ export default function LoginPage() {
     } = useForm({resolver: yupResolver(schema)});
 
     const onSubmit = async (data) => {
-        console.log(data)
         try {
             const res = await api.post("http://localhost:8080/api/auth/login", data);
 

@@ -32,21 +32,25 @@ export const CartProvider = ({children}) => {
     }
 
     const addToCart = async (productId, colorId, quantity = 1) => {
-        try {
-            const userId = Number(user.id);
-            const pid = Number(productId);
-            const cid = Number(colorId);
-            const qty = Number(quantity);
-            const res = await api.post(`http://localhost:8080/api/cart/${userId}/add`, {
-                productId: pid,
-                colorId: cid,
-                quantity: qty
-                }
-            );
-            setCart(res.data)
-        }catch (err) {
-            console.error("Error adding to cart: ", err);
-        }
+        if(user){
+            try {
+                const userId = Number(user.id);
+                const pid = Number(productId);
+                const cid = Number(colorId);
+                const qty = Number(quantity);
+                const res = await api.post(`http://localhost:8080/api/cart/${userId}/add`, {
+                        productId: pid,
+                        colorId: cid,
+                        quantity: qty
+                    }
+                );
+                setCart(res.data)
+            }catch (err) {
+                console.error("Error adding to cart: ", err);
+            }
+        }else
+            alert("Please Login To Add To Cart")
+
     }
 
     const updateQuantity = async (cartItemId, newQty) => {

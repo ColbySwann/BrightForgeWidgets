@@ -23,7 +23,6 @@ const WidgetListPage = () => {
 
     useEffect(() => {
         axios.get("http://localhost:8080/api/products")
-            // .then(res => console.log(res.data))
             .then(res => setProducts(res.data))
             .catch((err) => console.error("Error fetching products:", err));
         axios.get("http://localhost:8080/api/color")

@@ -60,7 +60,6 @@ const WidgetForm = ({onSubmissionSuccess}) => {
     }, []);
 
     const onSubmit = async (data) => {
-        console.log(data)
         try {
             let imageUrl = null;
 
@@ -71,7 +70,6 @@ const WidgetForm = ({onSubmissionSuccess}) => {
                     headers: {"Content-Type": "multipart/form-data"}
                 });
                 imageUrl = uploadRes.data;
-                console.log(uploadRes.data)
             }
 
             const widgetData = {

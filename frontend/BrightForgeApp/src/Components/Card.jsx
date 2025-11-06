@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { useAuth } from "../context/AuthContext.jsx";
 import {useCart} from "../context/CartContext.jsx";
-import api from "../api/axiosInstance.js";
 import axios from "axios";
 
 const Card = ({ product, onEdit, onDelete, showAdminControls, onHandleRefresh }) => {
@@ -62,13 +61,13 @@ const Card = ({ product, onEdit, onDelete, showAdminControls, onHandleRefresh })
                                     {[...Array(5)].map((_, i) => (
                                         <svg
                                             key={i}
-                                            className={`w-4 h-4 ${
-                                                i < product.usefulnessRating ? "text-yellow-400" : "text-gray-300"
+                                            className={`w-5 h-5 ${
+                                                i < product.usefulnessRating ? "text-red-600" : "text-gray-300"
                                             }`}
                                             fill="currentColor"
                                             viewBox="0 0 20 20"
                                         >
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.975a1 1 0 00.95.69h4.182c.969 0 1.371 1.24.588 1.81l-3.385 2.46a1 1 0 00-.364 1.118l1.287 3.974c.3.922-.755 1.688-1.54 1.118l-3.385-2.46a1 1 0 00-1.175 0l-3.385 2.46c-.785.57-1.84-.196-1.54-1.118l1.287-3.974a1 1 0 00-.364-1.118L2.045 9.402c-.783-.57-.38-1.81.588-1.81h4.182a1 1 0 00.95-.69l1.286-3.975z" />
+                                            <path d="M13.91,6.75c-1.17,2.25-4.3,5.31-6.07,6.94c-0.1903,0.1718-0.4797,0.1718-0.67,0C5.39,12.06,2.26,9,1.09,6.75&#xA;&#x9;C-1.48,1.8,5-1.5,7.5,3.45C10-1.5,16.48,1.8,13.91,6.75z"/>
                                         </svg>
                                     ))}
                                 </div>
@@ -94,7 +93,7 @@ const Card = ({ product, onEdit, onDelete, showAdminControls, onHandleRefresh })
 
                     {/* Admin & Flip Button */}
                     {showAdminControls && isAdmin && (
-                        <div className="absolute top-86 right-25 flex gap-2 z-10">
+                        <div className="absolute top-86 right-65 flex gap-2 z-10">
                             <button
                                 onClick={(e) => {
                                     e.stopPropagation();

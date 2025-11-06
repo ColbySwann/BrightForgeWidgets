@@ -3,6 +3,7 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from 'yup';
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import {Alert} from "flowbite-react";
 
 const schema = yup.object().shape({
     username: yup.string().required("Username is required"),
@@ -19,7 +20,6 @@ const RegistrationPage = () => {
     } = useForm({resolver: yupResolver(schema)});
 
     const onSubmit = async (data) => {
-        console.log(data)
         try {
             await axios.post("http://localhost:8080/api/auth/register", {
                 username: data.username,
@@ -30,7 +30,7 @@ const RegistrationPage = () => {
             alert("Registration successful! You can now log in.");
             navigate("/login");
         } catch (err) {
-            alert(err.response?.data?.error || "Registration Failed");
+            alert(err.response?.data?.error || "Username/Email Already Registered. Please Login Or Enter A New Username/Email");
         }
     };
 
